@@ -5,8 +5,7 @@ import { BeatLoader } from "react-spinners"
 import countryCodes from "../../assets/country-codes.json"
 
 dotenv.config()
-
-export const CountButton = ({ onLocationChange }) => {
+const LocationButton = ({ onLocationChange }) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleClick = async () => {
@@ -24,7 +23,6 @@ export const CountButton = ({ onLocationChange }) => {
       const { country, city } = await ipInfoResponse.json()
 
       const countryName = countryCodes[country] || "Unknown"
-      // I am embedding the HTML here for simplicity.
       onLocationChange(`Your country is ${countryName} and city is ${city}. 🎉`)
     } catch (error) {
       console.error(error)
@@ -53,3 +51,5 @@ export const CountButton = ({ onLocationChange }) => {
     </button>
   )
 }
+
+export default LocationButton

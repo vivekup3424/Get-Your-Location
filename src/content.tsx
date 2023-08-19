@@ -2,7 +2,7 @@ import cssText from "data-text:~style.css"
 import type { PlasmoCSConfig } from "plasmo"
 import { useState } from "react"
 
-import { CountButton } from "~features/count-button"
+import { LocationButton } from "~features/locationButton"
 
 export const config: PlasmoCSConfig = {
   matches: ["https://www.plasmo.com/*"]
@@ -20,7 +20,7 @@ const PlasmoOverlay = () => {
       <div className="plasmo-text-white plasmo-font-semibold plasmo-mb-2">
         {location}
       </div>
-      <CountButton onLocationChange={setLocation} />
+      <LocationButton onLocationChange={setLocation} />
     </div>
   )
 }
