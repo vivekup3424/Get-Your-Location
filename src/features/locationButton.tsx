@@ -5,16 +5,29 @@ import { BeatLoader } from "react-spinners"
 import countryCodes from "../../assets/country-codes.json"
 
 dotenv.config()
-const LocationButton = ({ onLocationChange }) => {
-  const [isLoading, setIsLoading] = useState(false)
 
-  const handleClick = async () => {
+// Define the props for the LocationButton component
+interface LocationButtonProps {
+  onLocationChange: (location: string) => void
+}
+
+// Define the LocationButton component
+const LocationButton: React.FC<LocationButtonProps> = ({
+  onLocationChange
+}) => {
+  // Define the isLoading state variable and setIsLoading function
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  // Define the handleClick function
+  const handleClick = async (): Promise<void> => {
     setIsLoading(true)
 
     try {
+      // Get the user's IP address
       const ipAddressResponse = await fetch("https://api.ipify.org?format=json")
       const { ip } = await ipAddressResponse.json()
 
+      // Get the user's location information based on their IP address
       const ipInfoResponse = await fetch(
         `https://ipinfo.io/${ip}?token=${
           process.env.IPINFO_ACCESS_TOKEN || "0836df2134ee04"
@@ -22,16 +35,22 @@ const LocationButton = ({ onLocationChange }) => {
       )
       const { country, city } = await ipInfoResponse.json()
 
+      // Get the country name based on the country code
       const countryName = countryCodes[country] || "Unknown"
+
+      // Call the onLocationChange function with the user's location information
       onLocationChange(`Your country is ${countryName} and city is ${city}. 🎉`)
     } catch (error) {
       console.error(error)
+
+      // Call the onLocationChange function with an error message
       onLocationChange("Error getting location")
     }
 
     setIsLoading(false)
   }
 
+  // Render the LocationButton component
   return (
     <button
       type="button"
