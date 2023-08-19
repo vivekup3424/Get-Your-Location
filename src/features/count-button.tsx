@@ -1,5 +1,6 @@
 import dotenv from "dotenv"
 import { useState } from "react"
+import { BeatLoader } from "react-spinners"
 
 import countryCodes from "../../assets/country-codes.json"
 
@@ -22,7 +23,8 @@ export const CountButton = ({ onLocationChange }) => {
       )
       const { country, city } = await ipInfoResponse.json()
 
-      const countryName = countryCodes[country] || country
+      const countryName = countryCodes[country] || "Unknown"
+      // I am embedding the HTML here for simplicity.
       onLocationChange(`Your country is ${countryName} and city is ${city}. 🎉`)
     } catch (error) {
       console.error(error)
@@ -38,7 +40,16 @@ export const CountButton = ({ onLocationChange }) => {
       className="plasmo-flex plasmo-flex-row plasmo-items-center plasmo-px-4 plasmo-py-2 plasmo-text-sm plasmo-rounded-lg plasmo-transition-all plasmo-border-none plasmo-shadow-lg hover:plasmo-shadow-md active:plasmo-scale-105 plasmo-bg-slate-50 hover:plasmo-bg-slate-100 plasmo-text-slate-800 hover:plasmo-text-slate-900 plasmo-max-w-xs"
       onClick={handleClick}
       disabled={isLoading}>
-      {isLoading ? "Loading..." : "Show my location"}
+      {isLoading ? (
+        <span className="plasmo-flex plasmo-flex-col">
+          <BeatLoader color="red" size={8} className="plasmo-block" />
+          <span className="plasmo-m-auto plasmo-width-auto plasmo-font-bold">
+            Loading...
+          </span>
+        </span>
+      ) : (
+        "Show my location"
+      )}
     </button>
   )
 }
