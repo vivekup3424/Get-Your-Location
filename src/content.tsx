@@ -1,5 +1,6 @@
 import cssText from "data-text:~style.css"
 import type { PlasmoCSConfig } from "plasmo"
+import { useState } from "react"
 
 import { CountButton } from "~features/count-button"
 
@@ -12,11 +13,14 @@ export const getStyle = () => {
   style.textContent = cssText
   return style
 }
-
+const [location, setLocation] = useState("")
 const PlasmoOverlay = () => {
   return (
     <div className="plasmo-z-50 plasmo-flex plasmo-fixed plasmo-top-32 plasmo-right-8">
-      <CountButton />
+      <div className="plasmo-text-white plasmo-font-semibold plasmo-mb-2">
+        {location}
+      </div>
+      <CountButton onLocationChange={setLocation} />
     </div>
   )
 }
